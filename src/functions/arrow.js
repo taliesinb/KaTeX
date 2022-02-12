@@ -27,6 +27,9 @@ defineFunction({
         "\\xrightharpoonup", "\\xleftharpoondown", "\\xleftharpoonup",
         "\\xrightleftharpoons", "\\xleftrightharpoons", "\\xlongequal",
         "\\xtwoheadrightarrow", "\\xtwoheadleftarrow", "\\xtofrom",
+        "\\xbulletrightarrow", "\\xbulletleftarrow",
+        "\\xrightflatarrow", "\\xleftflatarrow", "\\xleftrightflatarrow",
+        "\\xleftedge", "\\xrightedge", "\\xundirectededge",
         // The next 3 functions are here to support the mhchem extension.
         // Direct use of these functions is discouraged and may break someday.
         "\\xrightleftarrows", "\\xrightequilibrium", "\\xleftequilibrium",

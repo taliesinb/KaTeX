@@ -153,6 +153,18 @@ const katexImagesData: {
         1.75, 716],
     xhookleftarrow: [["leftarrow", "righthook"], 1.08, 522],
     xhookrightarrow: [["lefthook", "rightarrow"], 1.08, 522],
+
+    xbulletrightarrow: [["leftbullet", "rightarrow"], 1.08, 522],
+    xbulletleftarrow: [["leftarrow", "rightbullet"], 1.08, 522],
+
+    xleftrightflatarrow: [["leftflatarrow", "rightflatarrow"], 1.469, 522],
+    xrightflatarrow: [["rightflatarrow"], 1.469, 522, "xMaxYMin"],
+    xleftflatarrow: [["leftflatarrow"], 1.469, 522, "xMinYMin"],
+
+    xleftedge: [["leftflatarrow", "rightbullet"], 1.08, 522],
+    xrightedge: [["leftbullet", "rightflatarrow"], 1.08, 522],
+    xundirectededge: [["leftbullet", "rightbullet"], 0.888, 522],
+
     overlinesegment: [["leftlinesegment", "rightlinesegment"], 0.888, 522],
     underlinesegment: [["leftlinesegment", "rightlinesegment"], 0.888, 522],
     overgroup: [["leftgroup", "rightgroup"], 0.888, 342],
