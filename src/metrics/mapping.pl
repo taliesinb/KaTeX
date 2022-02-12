@@ -966,6 +966,17 @@ $map{msbm10} = {
     0x7D => 0x210F,         # \hslash
     0x7E => 0x0127,         # \hbar
     0x7F => 0x220D,         # \backepsilon
+
+    0x80 => 0x29D4,         # \blackltimes
+    0x81 => 0x29D5,         # \rightltimes
+    0x82 => 0x22C8,         # \bowtie
+    0x83 => 0x29D1,         # \blacklbowtie
+    0x84 => 0x29D2,         # \rightlbowtie
+
+    0x85 => 0x2AAA,         # \smallerthan
+    0x86 => 0x2AAB,         # \largerthan
+    
+    0x87 => 0x21AF,         # \shornarrow
   ],
 };
 

@@ -986,6 +986,17 @@ $map{msbm10} = {
     0x7D => 0x210F,         # \hslash
     0x7E => 0x0127,         # \hbar
     0x7F => 0x220D,         # \backepsilon
+
+    0x80 => 0x29D4,         # \blackltimes
+    0x81 => 0x29D5,         # \rightltimes
+    0x82 => 0x22C8,         # \bowtie
+    0x83 => 0x29D1,         # \blacklbowtie
+    0x84 => 0x29D2,         # \rightlbowite
+
+    0x85 => 0x2AAA,         # \smallerthan
+    0x86 => 0x2AAB,         # \largerthan
+
+    0x87 => 0x21AF,         # \shornarrow
   ],
 };
 
@@ -1314,16 +1325,6 @@ $extra{'Main-Regular'} = {
     'SetWidth(778)',
   ],
 
-  bowtie => [
-    'Select(0u25B9)','Copy()',
-    'Select(0u22C8)','Paste()',
-    'Select(0u25C3)','Copy()',
-    'Select(0u22C8)',
-    'PasteWithOffset(400,0)',
-    'SetRBearing(400,1)',
-    'RemoveOverlap()',
-  ],
-
   models => [
     'Select(0u2223)','Copy()',
     'Select(0u22A8)','Paste()',
@@ -1609,16 +1610,6 @@ $extra{'Main-Bold'} = {
     'Select(0u2245)',
     'PasteWithOffset(0,-136)',
     'SetWidth(894)',
-  ],
-
-  bowtie => [
-    'Select(0u25B9)','Copy()',
-    'Select(0u22C8)','Paste()',
-    'Select(0u25C3)','Copy()',
-    'Select(0u22C8)',
-    'PasteWithOffset(425,0)',
-    'SetRBearing(425,1)',
-    'RemoveOverlap()',
   ],
 
   models => [
