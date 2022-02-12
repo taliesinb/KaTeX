@@ -30,7 +30,8 @@ export type AlignSpec = { type: "separator", separator: string } | {
 };
 
 // Type to indicate column separation in MathML
-export type ColSeparationType = "align" | "alignat" | "gather" | "small" | "CD" | "none";
+export type ColSeparationType =
+    "align" | "alignat" | "gather" | "small" | "CD" | "none";
 
 // Helper functions
 function getHLines(parser: Parser): boolean[] {
@@ -306,7 +307,7 @@ const htmlBuilder: HtmlBuilder<"array"> = function(group, options) {
         arraycolsep = 0;
     }
 
-    const noSeps = arraycolsep == 0;
+    const noSeps = arraycolsep === 0;
 
     // Vertical spacing
     const baselineskip = group.colSeparationType === "CD"
@@ -859,7 +860,7 @@ defineEnvironment({
             }
             throw new ParseError("Unknown column alignment: " + ca, nde);
         });
-        var res = {
+        let res = {
             cols,
             hskipBeforeAndAfter: true, // \@preamble in lttab.dtx
             colSeparationType: "none",
@@ -917,19 +918,19 @@ defineEnvironment({
             const node = assertSymbolNodeType(colspacingSpecs[i]);
             const csz = node.text;
             const ind = "abcdefghijklmnopqrstuvwxyz".indexOf(csz);
-            if (ind == -1) {
-                throw new ParseError("Unknown column spacing: " + csz, nde);
+            if (ind === -1) {
+                throw new ParseError("Unknown column spacing: " + csz, node);
             }
             const gap = ind / 4;
-            if (i == cols.length) {
-                cols[i - 1].postgap = gap
+            if (i === cols.length) {
+                cols[i - 1].postgap = gap;
             } else {
                 cols[i].pregap = gap;
                 cols[i].postgap = 0;
             }
-        };
+        }
 
-        var res = {
+        const res = {
             cols,
             hskipBeforeAndAfter: true, // \@preamble in lttab.dtx
             maxNumCols: cols.length,
