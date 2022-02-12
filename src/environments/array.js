@@ -30,7 +30,7 @@ export type AlignSpec = { type: "separator", separator: string } | {
 };
 
 // Type to indicate column separation in MathML
-export type ColSeparationType = "align" | "alignat" | "gather" | "small" | "CD";
+export type ColSeparationType = "align" | "alignat" | "gather" | "small" | "CD" | "none";
 
 // Helper functions
 function getHLines(parser: Parser): boolean[] {
@@ -297,6 +297,11 @@ const htmlBuilder: HtmlBuilder<"array"> = function(group, options) {
         const localMultiplier = options.havingStyle(Style.SCRIPT).sizeMultiplier;
         arraycolsep = 0.2778 * (localMultiplier / options.sizeMultiplier);
     }
+    if (group.colSeparationType && group.colSeparationType === "none") {
+        arraycolsep = 0;
+    }
+
+    const noSeps = arraycolsep == 0;
 
     // Vertical spacing
     const baselineskip = group.colSeparationType === "CD"
@@ -452,7 +457,7 @@ const htmlBuilder: HtmlBuilder<"array"> = function(group, options) {
         }
 
         let sepwidth;
-        if (c > 0 || group.hskipBeforeAndAfter) {
+        if (!noSeps && (c > 0 || group.hskipBeforeAndAfter)) {
             sepwidth = utils.deflt(colDescr.pregap, arraycolsep);
             if (sepwidth !== 0) {
                 colSep = buildCommon.makeSpan(["arraycolsep"], []);
@@ -483,7 +488,7 @@ const htmlBuilder: HtmlBuilder<"array"> = function(group, options) {
             [col]);
         cols.push(col);
 
-        if (c < nc - 1 || group.hskipBeforeAndAfter) {
+        if (!noSeps && (c < nc - 1 || group.hskipBeforeAndAfter)) {
             sepwidth = utils.deflt(colDescr.postgap, arraycolsep);
             if (sepwidth !== 0) {
                 colSep = buildCommon.makeSpan(["arraycolsep"], []);
@@ -633,7 +638,8 @@ const mathmlBuilder: MathMLBuilder<"array"> = function(group, options) {
         }
         table.setAttribute("columnspacing", spacing.trim());
     } else if (group.colSeparationType === "alignat" ||
-        group.colSeparationType === "gather") {
+        group.colSeparationType === "gather" ||
+        group.colSeparationType === "none") {
         table.setAttribute("columnspacing", "0em");
     } else if (group.colSeparationType === "small") {
         table.setAttribute("columnspacing", "0.2778em");
@@ -803,6 +809,122 @@ defineEnvironment({
             throw new ParseError("Unknown column alignment: " + ca, nde);
         });
         const res = {
+            cols,
+            hskipBeforeAndAfter: true, // \@preamble in lttab.dtx
+            maxNumCols: cols.length,
+        };
+        return parseArray(context.parser, res, dCellStyle(context.envName));
+    },
+    htmlBuilder,
+    mathmlBuilder,
+});
+
+defineEnvironment({
+    type: "array",
+    names: ["nsarray"],
+    props: {
+        numArgs: 1,
+    },
+    handler(context, args) {
+        // Since no types are specified above, the two possibilities are
+        // - The argument is wrapped in {} or [], in which case Parser's
+        //   parseGroup() returns an "ordgroup" wrapping some symbol node.
+        // - The argument is a bare symbol node.
+        const symNode = checkSymbolNodeType(args[0]);
+        const colalign: AnyParseNode[] =
+            symNode ? [args[0]] : assertNodeType(args[0], "ordgroup").body;
+        const cols = colalign.map(function(nde) {
+            const node = assertSymbolNodeType(nde);
+            const ca = node.text;
+            if ("lcr".indexOf(ca) !== -1) {
+                return {
+                    type: "align",
+                    align: ca,
+                };
+            } else if (ca === "|") {
+                return {
+                    type: "separator",
+                    separator: "|",
+                };
+            } else if (ca === ":") {
+                return {
+                    type: "separator",
+                    separator: ":",
+                };
+            }
+            throw new ParseError("Unknown column alignment: " + ca, nde);
+        });
+        var res = {
+            cols,
+            hskipBeforeAndAfter: true, // \@preamble in lttab.dtx
+            colSeparationType: "none",
+            maxNumCols: cols.length,
+        };
+        res = parseArray(context.parser, res, dCellStyle(context.envName));
+        res.colSeparationType = "none";
+        return res;
+    },
+    htmlBuilder,
+    mathmlBuilder,
+});
+
+defineEnvironment({
+    type: "array",
+    names: ["csarray"],
+    props: {
+        numArgs: 2,
+    },
+    handler(context, args) {
+        // Since no types are specified above, the two possibilities are
+        // - The argument is wrapped in {} or [], in which case Parser's
+        //   parseGroup() returns an "ordgroup" wrapping some symbol node.
+        // - The argument is a bare symbol node.
+        const symNode = checkSymbolNodeType(args[0]);
+        const colalign: AnyParseNode[] =
+            symNode ? [args[0]] : assertNodeType(args[0], "ordgroup").body;
+        const cols = colalign.map(function(nde) {
+            const node = assertSymbolNodeType(nde);
+            const ca = node.text;
+            if ("lcr".indexOf(ca) !== -1) {
+                return {
+                    type: "align",
+                    align: ca,
+                };
+            } else if (ca === "|") {
+                return {
+                    type: "separator",
+                    separator: "|",
+                };
+            } else if (ca === ":") {
+                return {
+                    type: "separator",
+                    separator: ":",
+                };
+            }
+            throw new ParseError("Unknown column alignment: " + ca, nde);
+        });
+
+        const symNode2 = checkSymbolNodeType(args[1]);
+        const colspacingSpecs: AnyParseNode[] =
+            symNode2 ? [args[1]] : assertNodeType(args[1], "ordgroup").body;
+
+        for (let i = 0; i < cols.length; ++i) {
+            const node = assertSymbolNodeType(colspacingSpecs[i]);
+            const csz = node.text;
+            const ind = "abcdefghijklmnopqrstuvwxyz".indexOf(csz);
+            if (ind == -1) {
+                throw new ParseError("Unknown column spacing: " + csz, nde);
+            }
+            const gap = ind / 4;
+            if (i == cols.length) {
+                cols[i - 1].postgap = gap
+            } else {
+                cols[i].pregap = gap;
+                cols[i].postgap = 0;
+            }
+        };
+
+        var res = {
             cols,
             hskipBeforeAndAfter: true, // \@preamble in lttab.dtx
             maxNumCols: cols.length,
