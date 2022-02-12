@@ -107,7 +107,6 @@ defineSymbol(math, main, rel, "\u226a", "\\ll", true);
 defineSymbol(math, main, rel, "\u226b", "\\gg", true);
 defineSymbol(math, main, rel, "\u224d", "\\asymp", true);
 defineSymbol(math, main, rel, "\u2225", "\\parallel");
-defineSymbol(math, main, rel, "\u22c8", "\\bowtie", true);
 defineSymbol(math, main, rel, "\u2323", "\\smile", true);
 defineSymbol(math, main, rel, "\u2291", "\\sqsubseteq", true);
 defineSymbol(math, main, rel, "\u2292", "\\sqsupseteq", true);
@@ -408,6 +407,17 @@ defineSymbol(math, ams, bin, "\u229e", "\\boxplus", true);
 defineSymbol(math, ams, bin, "\u22c7", "\\divideontimes", true);
 defineSymbol(math, ams, bin, "\u22c9", "\\ltimes", true);
 defineSymbol(math, ams, bin, "\u22ca", "\\rtimes", true);
+
+defineSymbol(math, ams, bin, "\u22c8", "\\bowtie", true);
+defineSymbol(math, ams, bin, "\u29d4", "\\blackltimes", true);
+defineSymbol(math, ams, bin, "\u29d5", "\\blackrtimes", true);
+defineSymbol(math, ams, bin, "\u29d1", "\\blacklbowtie", true);
+defineSymbol(math, ams, bin, "\u29d2", "\\blackrbowtie", true);
+defineSymbol(math, ams, bin, "\u2aaa", "\\smallerthan", true);
+defineSymbol(math, ams, bin, "\u2aab", "\\largerthan", true);
+
+defineSymbol(math, ams, bin, "\u21af", "\\shornarrow", true);
+
 defineSymbol(math, ams, bin, "\u22cb", "\\leftthreetimes", true);
 defineSymbol(math, ams, bin, "\u22cc", "\\rightthreetimes", true);
 defineSymbol(math, ams, bin, "\u22cf", "\\curlywedge", true);
