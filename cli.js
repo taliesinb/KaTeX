@@ -37,7 +37,6 @@ program.option("-f, --macro-file <path>",
 
 if (require.main !== module) {
     module.exports = program;
-    return;
 }
 
 const options = program.parse(process.argv).opts();
@@ -109,4 +108,8 @@ function writeOutput(input) {
     }
 }
 
-readMacros();
+if (require.main === module) {
+
+    readMacros();
+
+}
