@@ -258,6 +258,8 @@ defineSymbol(math, ams, rel, "\u2ab6", "\\succneqq", true);
 defineSymbol(math, ams, rel, "\ue016", "\\@nsubseteqq");
 defineSymbol(math, ams, bin, "\u22b4", "\\unlhd");
 defineSymbol(math, ams, bin, "\u22b5", "\\unrhd");
+defineSymbol(math, ams, rel, "\ufe54", "\\bbsemicolon", true);
+defineSymbol(math, ams, rel, "\ufe55", "\\bbcolon", true);
 
 // AMS Negated Arrows
 defineSymbol(math, ams, rel, "\u219a", "\\nleftarrow", true);
